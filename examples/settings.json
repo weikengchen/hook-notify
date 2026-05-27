@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/scripts/pushover-notify.sh \"Claude Code\" \"Needs your attention\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/scripts/pushover-notify.sh \"Claude Code\" \"Finished — back to you\""
+          }
+        ]
+      }
+    ]
+  }
+}
