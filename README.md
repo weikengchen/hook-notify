@@ -153,3 +153,7 @@ PUSHOVER_TOKEN=… PUSHOVER_USER=… $HOME/.claude/scripts/pushover-notify.sh "C
 |---|---|
 | [`pushover-notify.sh`](pushover-notify.sh) | The hook script. |
 | [`examples/settings.json`](examples/settings.json) | Ready-to-merge Claude Code hook config. |
+
+## License
+
+[MIT](LICENSE) © 2026 Weikeng Chen
