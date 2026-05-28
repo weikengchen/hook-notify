@@ -10,16 +10,14 @@ The alert is sent at **Pushover priority 2 ("emergency")**: it repeats every 60
 seconds for up to an hour and plays a siren until you acknowledge it on your
 phone — so you can walk away from the keyboard and trust you'll be pulled back.
 
-A built-in **silencer** lets you mute it with a single file, no config edits.
-
 ---
 
 ## How it works
 
 ```
 Claude Code event  ──►  hook in settings.json  ──►  pushover-notify.sh  ──►  Pushover API  ──►  your phone
-  (Notification /                                    (silencer check,
-   Stop)                                              creds, curl)
+  (Notification /                                    (creds check + curl)
+   Stop)
 ```
 
 1. Claude Code fires a **hook event**. The two useful ones here:
@@ -29,7 +27,6 @@ Claude Code event  ──►  hook in settings.json  ──►  pushover-notify.
 2. Your `settings.json` maps that event to a command that runs
    `pushover-notify.sh "<title>" "<message>"`.
 3. The script, in order:
-   - exits silently if the **silencer** file exists,
    - exits silently if Pushover credentials aren't set,
    - otherwise POSTs an emergency notification to the Pushover API.
 
@@ -116,25 +113,6 @@ keep only the `Notification` hook (or lower the priority for `Stop`; see
 claude --debug
 # …then trigger a permission prompt and watch the debug log for the hook running.
 ```
-
----
-
-## The silencer
-
-Mute notifications without touching any config by creating the sentinel file:
-
-```sh
-touch ~/.claude/claude-pushover-silence   # mute
-rm    ~/.claude/claude-pushover-silence   # unmute
-```
-
-While it exists, the script exits before sending. It lives under `~/.claude`, so
-a mute **persists across reboots** until you remove it. Override the path with
-the `HOOK_NOTIFY_SILENCE_FILE` environment variable.
-
-> Tip: it's easy to put a one-click web toggle in front of this file — any small
-> web app that `touch`/`rm`s the sentinel works. Left out here to keep the repo
-> focused on the hook itself.
 
 ---
 

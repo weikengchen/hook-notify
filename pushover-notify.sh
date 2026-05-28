@@ -6,7 +6,7 @@
 #
 # Usage: pushover-notify.sh "<title>" "<message>" [<sound>]
 #
-# Exits 0 on EVERY path (sent, silenced, missing creds, or network error) so a
+# Exits 0 on EVERY path (sent, missing creds, or network error) so a
 # notification failure can never block or crash Claude Code.
 #
 # The shebang is zsh on purpose: zsh auto-sources ~/.zshenv on every invocation
@@ -18,17 +18,6 @@ set -u
 TITLE="${1:-Claude Code}"
 MESSAGE="${2:-(no message)}"
 SOUND="${3:-siren}"
-
-# --- Silencer -------------------------------------------------------------
-# If this sentinel file exists, skip the notification. Toggle it with:
-#     touch "$HOME/.claude/claude-pushover-silence"   # mute
-#     rm    "$HOME/.claude/claude-pushover-silence"   # unmute
-# It lives under ~/.claude, so a mute persists across reboots until you clear
-# it. Override the location with the HOOK_NOTIFY_SILENCE_FILE env var.
-SILENCE_FILE="${HOOK_NOTIFY_SILENCE_FILE:-$HOME/.claude/claude-pushover-silence}"
-if [ -e "$SILENCE_FILE" ]; then
-  exit 0
-fi
 
 # --- Credentials ----------------------------------------------------------
 # Set these in ~/.zshenv:
